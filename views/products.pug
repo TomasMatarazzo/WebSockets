@@ -1,0 +1,14 @@
+doctype html
+html
+    head
+        title Pagina de Productos 
+    body 
+        block content
+        br
+        ul
+        each product in products
+        li= title
+        li= price 
+        img= thumbnail
+            else
+        li There are no values

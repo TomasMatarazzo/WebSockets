@@ -1,0 +1,3 @@
+products = [];
+
+exports.products = products;

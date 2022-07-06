@@ -1,0 +1,80 @@
+const express = require("express");
+const app = express();
+const { Server } = require("socket.io");
+const http = require('http');
+const server = http.createServer(app);
+const models = require("./models/index.js");
+const  Persistencia  = require('./persistencia/Persistencia.js');
+
+PORT = 8080;
+const routerProducts = require("./routes/products.js");
+const bp = require('body-parser')
+app.use(bp.json())
+app.use(bp.urlencoded({ extended: true }))
+app.set('view engine','ejs');
+app.set('views',__dirname + '/views');
+app.use("/api/products", routerProducts);
+app.use(express.static(__dirname + '/views'));
+const { REPL_MODE_SLOPPY } = require("repl");
+
+
+// Hacemos la carga a la base de datos --- borrar esta linea para no cargarlo varias veces
+const deploy = require('./persistencia/deploy.js');
+
+// Bases de datos 
+
+const {optionsMySql , optionsSQLite} = require('./persistencia/options.js');
+const DB_Productos = new Persistencia('productos3',optionsMySql);
+const DB_Mensajes = new Persistencia('mensajes',optionsSQLite);
+
+
+// CARGA DE LOS PRODUCTOS , LO CARGO EN UN ARRAY PARA EJS
+
+( async () =>{
+  let productos = await DB_Productos.getAll();
+  models.products = productos
+}
+  )();
+
+// CONEXION DEL SOCKET
+
+const io = new Server(server)
+
+
+io.on('connection', async(socket)=>{
+  // CARGA DE MENSAJES ANTERIORES OBTENGO LOS ELEMENTOS DE LA DB
+
+  let mensajes = await DB_Mensajes.getAll();
+  io.sockets.emit('chat-message', mensajes)
+ 
+  // Agrego los mensajes al contenedor ( archivo de texto)
+ 
+  socket.on('chat-message', async (data) =>{
+    await DB_Mensajes.insertar(data);
+    mensajes = await DB_Mensajes.getAll();  
+    io.sockets.emit('chat-message', mensajes);
+  }) 
+  
+  // Agrego mensajes a la persistencia de los productos
+  // como actualizo con handlebars??
+
+  socket.on('product-list',async (producto)=>{
+    await DB_Productos.insertar(producto);
+    models.products.push(producto);
+  })
+})
+
+
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+server.listen(PORT, () => {
+  console.log("Server running in port 8080");
+});
+
+app.get('/products', (req,res)=>{
+  res.render("products")
+})
+
