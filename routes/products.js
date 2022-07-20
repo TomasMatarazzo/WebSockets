@@ -1,23 +1,30 @@
 const models = require("../models/index.js");
-const { Router } = require("express");
+const { Router } = require("express"); 
 const router = new Router();
+const {faker} = require("@faker-js/faker");
 
+ 
 router.get("/", (req, res) => {
   //res.json(models.products);
   res.render("products", {products: models.products})
 });
 
-// router.post("/", (req, res) => {
-//   console.log('hi');
-//   console.log(req.body);
-//   const { price, title, thumbnail } = req.body;
-//   const id = models.products.length + 1;
-//   if (price && title && thumbnail) {
-//     models.products.push({ ...req.body, id });
-//     res.status(204).json("no content")
-//   } else res.status(500).json({ error: "Hubo un error" });
-// });
+// ================ RUTA PARA EL TEST =================
 
+router.get('/test', (req,res) =>{
+  let products = []
+  for (let i = 0 ; i < 5 ; i++){
+    let name = faker.commerce.product()
+    let price = faker.commerce.price()
+    let description = faker.commerce.productDescription()
+    console.log(name,price,description);
+    products[i] = {name , price , description}
+    console.log(products[i])
+  }
+  res.render('test',{products})
+})
+
+//=====================================================
 router.get("/:id", (req, res) => {
   const id = parseInt(req.params.id);
   if (id >= 0 && id < models.products.length) {
