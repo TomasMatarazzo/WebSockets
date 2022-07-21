@@ -17,9 +17,7 @@ router.get('/test', (req,res) =>{
     let name = faker.commerce.product()
     let price = faker.commerce.price()
     let description = faker.commerce.productDescription()
-    console.log(name,price,description);
     products[i] = {name , price , description}
-    console.log(products[i])
   }
   res.render('test',{products})
 })
