@@ -19,26 +19,33 @@
         .welcomeSign{
             background-color: #008008;
             padding:0.5rem;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logoutButton{
+            width:130px;
+            height: 50px;
+            background-color: #2A2A72;
+            z-index: 3;
+            padding:10px;
+            cursor:pointer;
         }
 
     </style>
 </head>
 <body >
     <div class = "form-products">
-        <form action = "/login">
             <% if(true){ %>
                 <div class = "welcomeSign">
                     <h1>Bienvenido <%= nombre %></h1>
+                    <form action="/logout" method="get">
+                        <button class = "logoutButton" type="submit" name="logout" value="logout">Desloguarse</button>
+                    </form>
                 </div>
               <% } else{ %>  
                 <h1>bar</h1>
              <% } %>
-            <h1>Ingrese su nombre</h1></br>
-            <div>
-                <input placeholder=" Nombre " name = "name" id = "userName">
-            </div>
-            <button id = "submitUser">Loguearse</button>
-        </form>
     <h1>Ingrese su producto</h1>
         <label for="price">Price:</label>
         <input id="price" type="text" name="price">

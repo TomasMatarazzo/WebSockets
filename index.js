@@ -6,6 +6,7 @@ const server = http.createServer(app);
 const models = require("./models/index.js");
 const  Persistencia  = require('./persistencia/Persistencia.js');
 const mongoose = require('mongoose')
+const {isAuth} = require('./middleware/authentication')
 
 
 PORT = 8080;
@@ -103,15 +104,16 @@ io.on('connection', async(socket)=>{
 
 
 
-app.get("/", (req, res) => {
+app.get("/", isAuth, (req, res) => {
   res.render("index" ,{nombre:"tomas"});
 });
+
+app.get('/products', isAuth ,(req,res)=>{
+  res.render("products")
+})
 
 server.listen(PORT, () => {
   console.log("Server running in port 8080");
 });
 
-app.get('/products', (req,res)=>{
-  res.render("products")
-})
 
