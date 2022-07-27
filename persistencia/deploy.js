@@ -3,18 +3,18 @@
     const  Persistencia  = require('./Persistencia.js');
 
     const DB_Productos = new Persistencia('productos3',optionsMySql);
-    const DB_Mensajes = new Persistencia('mensajes',optionsSQLite);
+    // const DB_Mensajes = new Persistencia('mensajes2',optionsSQLite);
 
-    await DB_Mensajes.createTableMensajes(); 
+    // await DB_Mensajes.createTableMensajes(); 
 
-    await DB_Mensajes.insertar({
-    mail:"tomasmatarazzo@gmail", 
-    mensaje:"Hola como andas?"
-    })
-    await DB_Mensajes.insertar({
-    mail:"profe@gmail.com",
-    mensaje:"muy bien y vos"
-    })
+    // await DB_Mensajes.insertar({
+    // mail:"tomasmatarazzo@gmail", 
+    // mensaje:"Hola como andas?"
+    // })
+    // await DB_Mensajes.insertar({
+    // mail:"profe@gmail.com",
+    // mensaje:"muy bien y vos"
+    // })
 
 
     await DB_Productos.createTableProductos();

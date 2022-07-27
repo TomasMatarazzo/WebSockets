@@ -1,19 +1,56 @@
-const express = require("express");
+ const express = require("express");
 const app = express();
 const { Server } = require("socket.io");
 const http = require('http');
 const server = http.createServer(app);
 const models = require("./models/index.js");
 const  Persistencia  = require('./persistencia/Persistencia.js');
+const mongoose = require('mongoose')
+
 
 PORT = 8080;
 const routerProducts = require("./routes/products.js");
+const routerUser = require('./routes/user.js')
+
 const bp = require('body-parser')
+
+// =============================== CONEXION A LA SESSION =============================
+
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const MongoStore = require('connect-mongo')
+const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
+const password = 'm001-mongodb-basics';
+app.use(session(
+  {
+    store: MongoStore.create({
+      mongoUrl: 'mongodb+srv://m001-student:m001-mongodb-basics@sandbox.azv9a.mongodb.net/?retryWrites=true&w=majority',
+      mongoOptions:advancedOptions
+    }),
+    secret:'sh',
+    resave:false,
+    saveUninitialized:false
+  }
+))
+
+mongoose.connect(
+  'mongodb+srv://m001-student:m001-mongodb-basics@sandbox.azv9a.mongodb.net/?retryWrites=true&w=majority',
+  (err) => {
+   if(err) console.log(err) 
+   else console.log("mongdb is connected");
+  }
+);
+
+// ========================================
+
+app.use(cookieParser())
+
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 app.set('view engine','ejs');
 app.set('views',__dirname + '/views');
 app.use("/api/products", routerProducts);
+app.use('/', routerUser)
 app.use(express.static(__dirname + '/views'));
 const { REPL_MODE_SLOPPY } = require("repl");
 
@@ -67,7 +104,7 @@ io.on('connection', async(socket)=>{
 
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index" ,{nombre:"tomas"});
 });
 
 server.listen(PORT, () => {

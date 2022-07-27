@@ -5,10 +5,6 @@ class Persistencia{
       this.configuracion = configuracion;
       this.knex = require('knex')(this.configuracion)
     }
-  
-    // iniciarConexion(){
-    //   this.knex = require('knew')(this.configuracion)
-    // }
 
     async createTableProductos(){
       try{

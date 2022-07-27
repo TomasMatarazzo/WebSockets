@@ -26,31 +26,12 @@
 <body >
     <div class = "form-products">
         <form action = "/login">
-            <% if(true){ %>
-                <div class = "welcomeSign">
-                    <h1>Bienvenido <%= nombre %></h1>
-                </div>
-              <% } else{ %>  
-                <h1>bar</h1>
-             <% } %>
             <h1>Ingrese su nombre</h1></br>
             <div>
                 <input placeholder=" Nombre " name = "name" id = "userName">
             </div>
             <button id = "submitUser">Loguearse</button>
         </form>
-    <h1>Ingrese su producto</h1>
-        <label for="price">Price:</label>
-        <input id="price" type="text" name="price">
-        <label for="title">Title:</label>
-        <input id="title" type="text" name="title">
-        <label for="thumbnail" >Thumbnail:</label>
-        <input id="thumbnail" type="text" name = "thumbnail">
-        <button  id = "submitProduct">Submit</button>
-    </body>
-    </br>
-    <a href = "http://localhost:8080/api/products"><h3>Ver productos</h3></a> 
-    <!-- Como puedo hacer para no poner la direccion absoluta? -->
     </div>
     
 </body>
