@@ -14,11 +14,14 @@
       return res.redirect('/')
     }
 
+    
     const newUser = new User({name})
     await newUser.save()
 
     //aca me logueo
     req.session.isAuth = true
+    req.session.cookie.maxAge = 10000
+    console.log(req.session.name)
 
    return res.redirect('/')
  }
@@ -39,7 +42,7 @@
     req.session.destroy( error =>{
 
     })
-    res.redirect('/login')
+    res.render('logout')
  }
 
  module.exports = {login,logout , renderLogin}

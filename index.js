@@ -26,7 +26,8 @@ app.use(session(
   {
     store: MongoStore.create({
       mongoUrl: 'mongodb+srv://m001-student:m001-mongodb-basics@sandbox.azv9a.mongodb.net/?retryWrites=true&w=majority',
-      mongoOptions:advancedOptions
+      mongoOptions:advancedOptions,
+      cookie: { maxAge: 300000 },  // la sesion se cierra dps de 5 minutos
     }),
     secret:'sh',
     resave:false,

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const {login , logout , renderLogin} = require('../controller/sessionController')
+const {login , logout , renderLogin} = require('../controller/userController')
 
 router.get('/login',  renderLogin)
 router.get('/login2',login)
